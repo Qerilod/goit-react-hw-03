@@ -20,12 +20,10 @@ function App() {
   });
 
   const [filter, setFilter] = useState("");
+
   const handleFilterChange = (filter) => {
     setFilter(filter);
   };
-  const filteredContacts = FeedbackList.filter((contact) =>
-    contact.name.toLowerCase().startsWith(filter.toLowerCase())
-  );
 
   const handleAddContact = (name, number) => {
     const newContact = {
@@ -36,6 +34,10 @@ function App() {
     setFeedbackList((prevList) => [...prevList, newContact]);
   };
 
+  const filteredContacts = FeedbackList.filter((contact) =>
+    contact.name.toLowerCase().startsWith(filter.toLowerCase())
+  );
+
   const handleDelete = (id) => {
     setFeedbackList((prevList) =>
       prevList.filter((contact) => contact.id !== id)
@@ -44,7 +46,6 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem("Contacts", JSON.stringify(FeedbackList));
   }, [FeedbackList]);
-
   return (
     <div>
       <h1 style={{ color: "green", paddingLeft: "40px" }}>Phonebook</h1>
