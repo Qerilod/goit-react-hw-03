@@ -5,18 +5,16 @@ import SearchBox from "./components/SearchBox/SearchBox";
 import ContactForm from "./components/ContactForm/ContactForm";
 
 function App() {
-  const [FeedbackList, setFeedbackList] = useState(() => {
+  const [feedbackList, setFeedbackList] = useState(() => {
     const savedData = JSON.parse(window.localStorage.getItem("Contacts"));
-    if (savedData) {
-      return savedData && savedData.length > 0
-        ? savedData
-        : [
-            { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-            { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-            { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-            { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-          ];
-    }
+    return savedData && savedData.length > 0
+      ? savedData
+      : [
+          { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+          { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+          { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+          { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+        ];
   });
 
   const [filter, setFilter] = useState("");
@@ -34,7 +32,7 @@ function App() {
     setFeedbackList((prevList) => [...prevList, newContact]);
   };
 
-  const filteredContacts = FeedbackList.filter((contact) =>
+  const filteredContacts = feedbackList.filter((contact) =>
     contact.name.toLowerCase().startsWith(filter.toLowerCase())
   );
 
@@ -43,15 +41,17 @@ function App() {
       prevList.filter((contact) => contact.id !== id)
     );
   };
+
   useEffect(() => {
-    window.localStorage.setItem("Contacts", JSON.stringify(FeedbackList));
-  }, [FeedbackList]);
+    window.localStorage.setItem("Contacts", JSON.stringify(feedbackList));
+  }, [feedbackList]);
+
   return (
     <div>
       <h1 style={{ color: "green", paddingLeft: "40px" }}>Phonebook</h1>
       <ContactForm onAddContact={handleAddContact} />
       <SearchBox filter={filter} onFilterChange={handleFilterChange} />
-      <ContactList FeedbackList={filteredContacts} onDelete={handleDelete} />
+      <ContactList feedbackList={filteredContacts} onDelete={handleDelete} />
     </div>
   );
 }
